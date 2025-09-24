@@ -1,24 +1,39 @@
-using System.Numerics;
 using UnityEngine;
 
-public class Player_move : MonoBehaviour
+public class WalkingScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private Rigidbody2D rb;
-    private float MovementSpeed = 2f;
-    private Vector2 MovementDirection;
+
+    public Rigidbody2D BodyPlayer;
+ 
+    private float horizontal;
+    private float vertical;
+    public float Speed = 350;
+
+    private Vector3 movement;
+
+    // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        MovementDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
     }
-    void FixedUpdate()
+
+    private void FixedUpdate()
     {
-        rb.linearVelocity = MovementDirection * MovementSpeed;
+
+        movement = new Vector3(horizontal, vertical, 0).normalized;
+        BodyPlayer.linearVelocity = new Vector3(movement.x * Speed, movement.y * Speed, movement.z * Speed) * Time.fixedDeltaTime;
+
+
+
+
+        Debug.Log(movement);
     }
 }
